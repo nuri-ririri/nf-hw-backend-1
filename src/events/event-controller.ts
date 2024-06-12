@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { CreateEventDto } from './dtos/CreateEvent.dot';
 import EventService from './event-service';
+import {Controller} from "./Controller";
 
-class EventController {
+class EventController implements Controller{
     private eventService : EventService;
 
 
@@ -47,6 +48,15 @@ class EventController {
           res.status(500).send({ error: error.message });
         }
       }
+    getEventsByCity = async (req: Request, res: Response): Promise<void> => {
+        try{
+            const userCity = (req as any).user.city;
+            const events = await this.eventService.getEventsByCity(userCity);
+            res.status(200).json(events);
+        }catch (error: any) {
+            res.status(500).send({ error: error.message });
+        }
+    }
 }
 
 export default EventController;

@@ -29,6 +29,9 @@ class EventService {
       await newEvent.save();
       return newEvent;
     }
+    async getEventsByCity(city:string): Promise<IEvent[]> {
+        return EventModel.find({location: city}).exec();
+    }
   
     
   }
